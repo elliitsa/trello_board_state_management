@@ -21,16 +21,14 @@ class BoardPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) =>
-                BoardColumn(boardColumn: board.boardColumns[index]),
-            separatorBuilder: (context, index) => SizedBox(width: 8),
-            itemCount: board.boardColumns.length,
-          ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) =>
+              BoardColumn(boardColumn: board.boardColumns[index]),
+          separatorBuilder: (context, index) => SizedBox(width: 8),
+          itemCount: board.boardColumns.length,
         ),
       ),
     );

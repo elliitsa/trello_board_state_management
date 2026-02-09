@@ -151,20 +151,5 @@ const _boardColumn = [
       ),
     ],
   ),
-  BoardColumnEntity(
-    id: 3,
-    title: "Done",
-    cards: [
-      CardEntity(
-        id: 1,
-        title: "First Card",
-        description: "This is the first card of the third column",
-      ),
-      CardEntity(
-        id: 1,
-        title: "Second Card",
-        description: "This is the second card of the third column",
-      ),
-    ],
-  ),
+  BoardColumnEntity(id: 3, title: "Empty Board Column Example", cards: []),
 ];
