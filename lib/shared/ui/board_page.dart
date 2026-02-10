@@ -42,10 +42,18 @@ class BoardPage extends StatelessWidget {
             return const BoardPageEmpty();
           }
           if (state is BoardPageError) {
-            return Center(
-              child: Text(
-                state.errorMessage,
-                style: const TextStyle(color: Colors.red),
+            return SizedBox.expand(
+              child: ColoredBox(
+                color: Theme.of(context).colorScheme.errorContainer,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    state.errorMessage,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+                  ),
+                ),
               ),
             );
           }
