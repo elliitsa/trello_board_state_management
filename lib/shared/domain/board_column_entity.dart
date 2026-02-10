@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'card_entity.dart';
 
 @immutable
-class BoardColumnEntity {
+class BoardColumnEntity extends Equatable{
   final int id;
   final String title;
   final List<CardEntity> cards;
@@ -13,4 +14,7 @@ class BoardColumnEntity {
     required this.title,
     required this.cards,
   });
+
+  @override
+  List<Object?> get props => [id, title, cards];
 }
