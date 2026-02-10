@@ -20,7 +20,7 @@ class BoardPage extends StatelessWidget {
         ),
         actions: [
           IconButton.filledTonal(
-            onPressed: ()async  {
+            onPressed: () async {
               await context.read<BoardPageCubit>().onRefresh();
             },
             icon: Icon(Icons.refresh),
@@ -37,23 +37,34 @@ class BoardPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: BlocBuilder<BoardPageCubit, BoardPageState>(
         builder: (context, state) {
-          return switch (state) {
-            BoardPageInitial() => Center(child: CircularProgressIndicator()),
-            BoardPageLoading() => Center(child: CircularProgressIndicator()),
-            BoardPageUpdating() => Center(child: CircularProgressIndicator()),
-            BoardPageSuccess() => Padding(
-              padding: EdgeInsets.all(16),
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    BoardColumn(boardColumn: board.boardColumns[index]),
-                separatorBuilder: (context, index) => SizedBox(width: 8),
-                itemCount: board.boardColumns.length,
+          final isLoading =
+              state is BoardPageLoading || state is BoardPageInitial;
+          return Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) =>
+                      BoardColumn(boardColumn: board.boardColumns[index]),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 8),
+                  itemCount: board.boardColumns.length,
+                ),
               ),
-            ),
-            BoardPageError() =>
-              throw UnimplementedError(), // TODO: Handle this case.
-          };
+              if (isLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: const Color.fromRGBO(0, 0, 0, 0.3),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.tertiaryContainer,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
         },
       ),
     );
