@@ -6,9 +6,7 @@ import 'package:trello_board_state_management/trello_bloc/board_page_cubit.dart'
 import '../domain/board_entity.dart';
 
 class BoardPage extends StatelessWidget {
-  const BoardPage({required this.board, super.key});
-
-  final BoardEntity board;
+  const BoardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,42 +18,68 @@ class BoardPage extends StatelessWidget {
         ),
         actions: [
           IconButton.filledTonal(
-            onPressed: () async {
-              await context.read<BoardPageCubit>().onRefresh();
+            onPressed: () {
+              context.read<BoardPageCubit>().onRefresh();
             },
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           IconButton.filledTonal(
             onPressed: null,
-            icon: Icon(Icons.add_box_outlined),
+            icon: const Icon(Icons.add_box_outlined),
           ),
-          SizedBox(width: 24),
+          const SizedBox(width: 24),
         ],
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: BlocBuilder<BoardPageCubit, BoardPageState>(
         builder: (context, state) {
-          final isLoading =
-              state is BoardPageLoading || state is BoardPageInitial;
+          if (state is BoardPageLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is BoardPageEmpty) {
+            return const BoardPageEmpty();
+          }
+          if (state is BoardPageError) {
+            return Center(
+              child: Text(
+                state.errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          }
+
+          BoardEntity board;
+          bool isOverlayLoading = false;
+
+          if (state is BoardPageSuccess) {
+            board = state.boardEntity;
+          } else if (state is BoardPageRefreshing) {
+            board = state.boardEntity!;
+            isOverlayLoading = true;
+          } else {
+            return const SizedBox.shrink();
+          }
+
           return Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
+                  itemCount: board.boardColumns.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 8),
                   itemBuilder: (context, index) =>
                       BoardColumn(boardColumn: board.boardColumns[index]),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 8),
-                  itemCount: board.boardColumns.length,
                 ),
               ),
-              if (isLoading)
+
+              // Overlay spinner
+              if (isOverlayLoading)
                 Positioned.fill(
                   child: Container(
-                    color: const Color.fromRGBO(0, 0, 0, 0.3),
+                    color: Color.fromRGBO(0, 0, 0, 0.3),
                     child: Center(
                       child: CircularProgressIndicator(
                         color: Theme.of(context).colorScheme.tertiaryContainer,
@@ -68,5 +92,15 @@ class BoardPage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class BoardPageEmpty extends StatelessWidget {
+  const BoardPageEmpty({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO return an empty board column entity; let the board column widget take display an empty state
+    return Text("Empty");
   }
 }

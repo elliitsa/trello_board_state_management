@@ -4,38 +4,39 @@ sealed class BoardPageState extends Equatable {
   const BoardPageState();
 }
 
-final class BoardPageInitial extends BoardPageState {
-  const BoardPageInitial();
-
-  @override
-  List<Object> get props => [];
-}
-
 final class BoardPageLoading extends BoardPageState {
-  const BoardPageLoading();
-
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class BoardPageUpdating extends BoardPageState {
-  const BoardPageUpdating();
+final class BoardPageRefreshing extends BoardPageState {
+  final BoardEntity? boardEntity;
+
+  const BoardPageRefreshing(this.boardEntity);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [boardEntity];
+}
+
+final class BoardPageEmpty extends BoardPageState {
+  @override
+  List<Object?> get props => [];
 }
 
 final class BoardPageSuccess extends BoardPageState {
-  const BoardPageSuccess();
+  final BoardEntity boardEntity;
+
+  const BoardPageSuccess({required this.boardEntity});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [boardEntity];
 }
 
 final class BoardPageError extends BoardPageState {
-  const BoardPageError();
+  final String errorMessage;
+
+  const BoardPageError({required this.errorMessage});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [errorMessage];
 }
-
