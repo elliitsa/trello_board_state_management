@@ -38,8 +38,8 @@ class BoardPage extends StatelessWidget {
           if (state is BoardPageLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (state is BoardPageEmpty) {
-            return const BoardPageEmpty();
+          if (state is BoardEmptyPage) {
+            return BoardPageEmpty();
           }
           if (state is BoardPageError) {
             return SizedBox.expand(
@@ -64,7 +64,7 @@ class BoardPage extends StatelessWidget {
           if (state is BoardPageSuccess) {
             board = state.boardEntity;
           } else if (state is BoardPageRefreshing) {
-            board = state.boardEntity!;
+            board = state.boardEntity;
             isOverlayLoading = true;
           } else {
             return const SizedBox.shrink();
@@ -108,7 +108,8 @@ class BoardPageEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     // TODO return an empty board column entity; let the board column widget take display an empty state
-    return Text("Empty");
+    return Center(child: Text("Empty", style: TextStyle(color: Colors.black)));
   }
 }

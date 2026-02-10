@@ -10,32 +10,33 @@ final class BoardPageLoading extends BoardPageState {
 }
 
 final class BoardPageRefreshing extends BoardPageState {
-  final BoardEntity? boardEntity;
-
   const BoardPageRefreshing(this.boardEntity);
+
+  final BoardEntity boardEntity;
 
   @override
   List<Object?> get props => [boardEntity];
 }
 
-final class BoardPageEmpty extends BoardPageState {
+final class BoardEmptyPage extends BoardPageState {
+
   @override
   List<Object?> get props => [];
 }
 
 final class BoardPageSuccess extends BoardPageState {
-  final BoardEntity boardEntity;
-
   const BoardPageSuccess({required this.boardEntity});
+
+  final BoardEntity boardEntity;
 
   @override
   List<Object?> get props => [boardEntity];
 }
 
 final class BoardPageError extends BoardPageState {
-  final String errorMessage;
-
   const BoardPageError({required this.errorMessage});
+
+  final String errorMessage;
 
   @override
   List<Object?> get props => [errorMessage];

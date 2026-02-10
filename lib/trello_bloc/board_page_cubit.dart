@@ -27,13 +27,13 @@ class BoardPageCubit extends Cubit<BoardPageState> {
   }
 
   Future<void> onRefresh() async {
-    emit(
-      BoardPageRefreshing(
-        state is BoardPageSuccess
-            ? (state as BoardPageSuccess).boardEntity
-            : null,
-      ),
-    );
+    if (state is! BoardPageSuccess) {
+      // if previous state is empty, show loading view
+      emit(BoardPageLoading());
+    } else {
+      emit(BoardPageRefreshing((state as BoardPageSuccess).boardEntity));
+    }
+
     try {
       // Fake refresh delay
       await Future.delayed(const Duration(seconds: 3));
@@ -41,7 +41,7 @@ class BoardPageCubit extends Cubit<BoardPageState> {
       final board = _board; // Replace with API call
 
       if (board.boardColumns.isEmpty) {
-        emit(BoardPageEmpty());
+        emit(BoardEmptyPage());
       } else {
         emit(BoardPageSuccess(boardEntity: board));
       }
