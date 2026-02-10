@@ -17,7 +17,7 @@ class BoardPageCubit extends Cubit<BoardPageState> {
       await Future.delayed(const Duration(seconds: 2));
       final board = _board;
       if (board.boardColumns.isEmpty) {
-        emit(BoardPageEmpty());
+        emit(BoardEmptyPage());
       } else {
         emit(BoardPageSuccess(boardEntity: board));
       }
