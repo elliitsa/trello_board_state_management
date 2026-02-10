@@ -40,7 +40,7 @@ class BoardColumn extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextButton.icon(
-                onPressed: () {},
+                onPressed: null,
                 label: Text("Add a card"),
                 icon: Icon(Icons.add),
               ),
