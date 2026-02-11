@@ -5,23 +5,14 @@ sealed class BoardPageState extends Equatable {
 }
 
 final class BoardPageLoading extends BoardPageState {
-  @override
-  List<Object?> get props => [];
-}
+  const BoardPageLoading({this.boardEntity});
 
-final class BoardPageRefreshing extends BoardPageState {
-  // I would go for consistency and also just named parameters here
-  const BoardPageRefreshing(this.boardEntity);
-
-  final BoardEntity boardEntity;
+  final BoardEntity? boardEntity;
 
   @override
   List<Object?> get props => [boardEntity];
 }
 
-// Is there a world where you would be interested in the whole `board`
-// object here given that yes its technically an empty board but now you
-// lose the ability to display things like maybe the board name.
 final class BoardEmptyPage extends BoardPageState {
 
   @override

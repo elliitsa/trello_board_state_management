@@ -19,7 +19,7 @@ class BoardPage extends StatelessWidget {
         actions: [
           IconButton.filledTonal(
             onPressed: () {
-              context.read<BoardPageCubit>().onRefresh();
+              context.read<BoardPageCubit>().loadBoard();
             },
             icon: const Icon(Icons.refresh),
           ),
@@ -35,7 +35,9 @@ class BoardPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: BlocBuilder<BoardPageCubit, BoardPageState>(
         builder: (context, state) {
-          if (state is BoardPageLoading) {
+          bool isOverlayLoading = false;
+
+          if (state is BoardPageLoading && state.boardEntity == null) {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is BoardEmptyPage) {
@@ -59,12 +61,11 @@ class BoardPage extends StatelessWidget {
           }
 
           BoardEntity board;
-          bool isOverlayLoading = false;
 
           if (state is BoardPageSuccess) {
             board = state.boardEntity;
-          } else if (state is BoardPageRefreshing) {
-            board = state.boardEntity;
+          } else if (state is BoardPageLoading && state.boardEntity != null) {
+            board = state.boardEntity!;
             isOverlayLoading = true;
           } else {
             return const SizedBox.shrink();
