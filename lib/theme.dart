@@ -344,6 +344,8 @@ class MaterialTheme {
        bodyColor: colorScheme.onSurface,
        displayColor: colorScheme.onSurface,
      ),
+    // Gurl what flutter version you on we aint got this was deprecated since
+    // 3.18
      scaffoldBackgroundColor: colorScheme.background,
      canvasColor: colorScheme.surface,
   );

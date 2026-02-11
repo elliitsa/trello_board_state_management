@@ -5,6 +5,9 @@ import 'board_column_entity.dart';
 
 @immutable
 class BoardEntity extends Equatable {
+  // Given that boards have ids you could consider faking the incorporation
+  // of this when you are "fetching" the board.
+  // `getBoard(id: id)`
   final int id;
   final List<BoardColumnEntity> boardColumns;
 
