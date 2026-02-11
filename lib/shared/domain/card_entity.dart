@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 
 @immutable
 class CardEntity extends Equatable {
-  final int id;
-  final String title;
-  // TODO do I need description?
-  final String description;
-
   const CardEntity({
-    required this.id,
+    required this.guid,
     required this.title,
-    required this.description,
+    this.description,
   });
 
+  final String guid;
+  final String title;
+  // TODO do I need description?
+  final String? description;
+
   @override
-  List<Object?> get props => [id, title, description];
+  List<Object?> get props => [guid, title, description];
 }

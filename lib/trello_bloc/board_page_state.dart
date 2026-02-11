@@ -5,27 +5,15 @@ sealed class BoardPageState extends Equatable {
 }
 
 final class BoardPageLoading extends BoardPageState {
-  const BoardPageLoading({this.boardEntity});
-
-  final BoardEntity? boardEntity;
-
-  @override
-  List<Object?> get props => [boardEntity];
-}
-
-final class BoardEmptyPage extends BoardPageState {
+  const BoardPageLoading();
 
   @override
   List<Object?> get props => [];
 }
 
-final class BoardPageSuccess extends BoardPageState {
-  const BoardPageSuccess({required this.boardEntity});
-
-  final BoardEntity boardEntity;
-
+final class BoardPageEmpty extends BoardPageState {
   @override
-  List<Object?> get props => [boardEntity];
+  List<Object?> get props => [];
 }
 
 final class BoardPageError extends BoardPageState {
@@ -36,3 +24,30 @@ final class BoardPageError extends BoardPageState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+final class HasDataState extends BoardPageState {
+  const HasDataState({
+    required this.boardEntity,
+    this.isLoading = false,
+  });
+
+  final BoardEntity boardEntity;
+  final bool isLoading;
+
+  @override
+  List<Object?> get props => [boardEntity, isLoading];
+}
+
+// final class LoadedWithData extends HasDataState {
+//   const LoadedWithData({required super.boardEntity});
+//
+//   @override
+//   List<Object?> get props => [boardEntity];
+// }
+//
+// final class LoadingWithData extends HasDataState {
+//   const LoadingWithData({required super.boardEntity});
+//
+//   @override
+//   List<Object?> get props => [boardEntity];
+// }

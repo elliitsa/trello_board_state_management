@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../domain/card_entity.dart';
+import '../../../domain/card_entity.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({
