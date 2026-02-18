@@ -37,17 +37,3 @@ final class HasDataState extends BoardPageState {
   @override
   List<Object?> get props => [boardEntity, isLoading];
 }
-
-// final class LoadedWithData extends HasDataState {
-//   const LoadedWithData({required super.boardEntity});
-//
-//   @override
-//   List<Object?> get props => [boardEntity];
-// }
-//
-// final class LoadingWithData extends HasDataState {
-//   const LoadingWithData({required super.boardEntity});
-//
-//   @override
-//   List<Object?> get props => [boardEntity];
-// }

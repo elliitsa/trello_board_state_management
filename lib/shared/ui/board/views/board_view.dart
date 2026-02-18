@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/board_entity.dart';
-import '../widgets/board_column.dart';
+import 'package:trello_board_state_management/shared/domain/board_entity.dart';
+import 'package:trello_board_state_management/shared/ui/board/widgets/board_column.dart';
 
 class BoardView extends StatelessWidget {
   const BoardView({

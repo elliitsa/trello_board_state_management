@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
 import 'package:uuid/uuid.dart';
 
-import '../shared/domain/board_column_entity.dart';
-import '../shared/domain/card_entity.dart';
+import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
+import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 
 part 'board_page_state.dart';
 

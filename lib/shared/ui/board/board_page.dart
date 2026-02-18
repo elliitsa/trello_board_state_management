@@ -4,8 +4,8 @@ import 'package:trello_board_state_management/shared/ui/board/views/board_view_e
 import 'package:trello_board_state_management/shared/ui/board/widgets/board_column.dart';
 import 'package:trello_board_state_management/trello_bloc/board_page_cubit.dart';
 
-import '../../domain/board_entity.dart';
-import 'views/board_view.dart';
+import 'package:trello_board_state_management/shared/domain/board_entity.dart';
+import 'package:trello_board_state_management/shared/ui/board/views/board_view.dart';
 
 class BoardPage extends StatelessWidget {
   const BoardPage({super.key});

@@ -3,10 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 import 'package:trello_board_state_management/shared/ui/board/widgets/task_card.dart';
 import 'package:trello_board_state_management/trello_bloc/board_column_cubit.dart';
-
-import 'board_title.dart';
-
-final GlobalKey<FormState> _columnTitleKey = GlobalKey<FormState>();
+import 'package:trello_board_state_management/shared/ui/board/widgets/board_title.dart';
 
 class BoardColumn extends StatelessWidget {
   const BoardColumn({required BoardColumnEntity boardColumn, super.key})
@@ -31,7 +28,7 @@ class BoardColumn extends StatelessWidget {
           create: (context) =>
               BoardColumnCubit(boardColumnEntity: _boardColumn!), // TODO FIX!!!
           child: BlocBuilder<BoardColumnCubit, BoardColumnState>(
-            buildWhen: (_, __) => true,
+            buildWhen: (_, _) => true,
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

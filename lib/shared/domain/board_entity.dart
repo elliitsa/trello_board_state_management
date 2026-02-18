@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:meta/meta.dart';
 
-import 'board_column_entity.dart';
+import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 
 @immutable
 class BoardEntity extends Equatable {

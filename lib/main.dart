@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/domain/board_entity.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 import 'package:trello_board_state_management/shared/ui/board/board_page.dart';
 import 'package:trello_board_state_management/theme.dart';
 import 'package:trello_board_state_management/trello_bloc/board_page_cubit.dart';
