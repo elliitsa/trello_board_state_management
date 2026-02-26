@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/ui/board/board_page.dart';
-import 'package:trello_board_state_management/theme.dart';
-import 'package:trello_board_state_management/trello_bloc/board_page_cubit.dart';
-import 'package:trello_board_state_management/util.dart';
+import 'package:trello_board_state_management/app_config.dart';
+import 'package:trello_board_state_management/trello_bloc/bloc_app.dart';
+import 'package:trello_board_state_management/trello_riverpod/riverpod_app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  switch (AppConfig.stateManagement) {
+    case StateManagement.bloc:
+      runApp(const BlocApp());
+      break;
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
-    TextTheme textTheme = createTextTheme(context, "Roboto", "Headland One");
-    MaterialTheme theme = MaterialTheme(textTheme);
-    return MaterialApp(
-      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-      home: BlocProvider<BoardPageCubit>(
-        create: (BuildContext context) => BoardPageCubit()..loadBoard(),
-        child: const BoardPage(),
-      ),
-    );
+    case StateManagement.riverpod:
+      runApp(const RiverpodApp());
+      break;
   }
 }

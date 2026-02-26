@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/ui/board/views/board_view_error.dart';
-import 'package:trello_board_state_management/shared/ui/board/widgets/board_column.dart';
-import 'package:trello_board_state_management/trello_bloc/board_page_cubit.dart';
+import 'package:trello_board_state_management/trello_bloc/cubits/board_page_cubit.dart';
 
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
-import 'package:trello_board_state_management/shared/ui/board/views/board_view.dart';
+import 'package:trello_board_state_management/trello_bloc/ui/views/board_view.dart';
+import 'package:trello_board_state_management/trello_bloc/ui/views/board_view_error.dart';
+import 'package:trello_board_state_management/trello_bloc/ui/widgets/board_column.dart';
 
 class BoardPage extends StatelessWidget {
   const BoardPage({super.key});
@@ -15,7 +15,7 @@ class BoardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Trello Board",
+          "Trello Board BloC",
           style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         actions: [
