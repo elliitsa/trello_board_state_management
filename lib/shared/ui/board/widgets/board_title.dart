@@ -42,12 +42,13 @@ class BoardTitle extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          if (boardColumn != null)
-            Badge.count(
-              count: boardColumn?.cards?.length ?? 0,
-              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-              padding: .all(4),
-            ),
+          Badge.count(
+            count: boardColumn?.cards?.length ?? 0,
+            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            padding: .all(4),
+          ),
+          SizedBox(width: 8),
+          IconButton(onPressed: () {}, icon: Icon(Icons.delete))
         ],
       ),
     );
