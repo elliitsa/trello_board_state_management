@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
-import 'package:trello_board_state_management/shared/ui/board/widgets/task_card.dart';
-import 'package:trello_board_state_management/trello_bloc/board_column_cubit.dart';
-import 'package:trello_board_state_management/shared/ui/board/widgets/board_title.dart';
+import 'package:trello_board_state_management/trello_bloc/cubits/board_column_cubit.dart';
+import 'package:trello_board_state_management/trello_bloc/ui/widgets/board_title.dart';
+import 'package:trello_board_state_management/trello_bloc/ui/widgets/task_card.dart';
 
 class BoardColumn extends StatelessWidget {
   const BoardColumn({required BoardColumnEntity boardColumn, super.key})

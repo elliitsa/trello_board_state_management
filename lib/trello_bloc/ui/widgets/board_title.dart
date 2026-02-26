@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/trello_bloc/board_column_cubit.dart';
+import 'package:trello_board_state_management/trello_bloc/cubits/board_column_cubit.dart';
 import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 
 class BoardTitle extends StatelessWidget {
@@ -47,8 +47,6 @@ class BoardTitle extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
             padding: .all(4),
           ),
-          SizedBox(width: 8),
-          IconButton(onPressed: () {}, icon: Icon(Icons.delete))
         ],
       ),
     );
