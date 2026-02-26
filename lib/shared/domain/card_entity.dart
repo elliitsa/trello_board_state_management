@@ -3,17 +3,11 @@ import 'package:meta/meta.dart';
 
 @immutable
 class CardEntity extends Equatable {
-  const CardEntity({
-    required this.guid,
-    required this.title,
-    this.description,
-  });
+  const CardEntity({required this.guid, required this.title});
 
   final String guid;
   final String title;
-  // TODO do I need description?
-  final String? description;
 
   @override
-  List<Object?> get props => [guid, title, description];
+  List<Object?> get props => [guid, title];
 }

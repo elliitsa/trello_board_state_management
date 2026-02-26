@@ -27,23 +27,26 @@ class BoardPageCubit extends Cubit<BoardPageState> {
       // Fake API delay
       await Future.delayed(const Duration(seconds: 1));
       BoardEntity board;
-      if (state is BoardPageLoading) {  // TOOD fix that for error state
+      if (state is BoardPageLoading) {
         board = _board;
       } else {
         board = (state as HasDataState).boardEntity;
       }
       if (board.boardColumns.isEmpty) {
-        // TODO empty columns means empty page?
         emit(BoardPageEmpty());
       } else {
         emit(HasDataState(boardEntity: board, isLoading: false));
       }
     } on Exception catch (e) {
-      emit(
-        BoardPageError(errorMessage: e.toString()),
-      ); // TODO Can we do a toast here?
+      print('Exception details:\n $e');
+      emit(BoardPageError());
     } on Error catch (e) {
-      emit(BoardPageError(errorMessage: e.toString()));
+      print('Error details:\n $e');
+      emit(BoardPageError());
+    } catch (e, s) {
+      print('Error details:\n $e');
+      print('Stack details:\n $s');
+      emit(BoardPageError());
     }
   }
 
@@ -71,7 +74,9 @@ class BoardPageCubit extends Cubit<BoardPageState> {
 
       final oldBoard = (state as HasDataState).boardEntity;
 
-      final newBoardColumns = List<BoardColumnEntity>.from(oldBoard.boardColumns);
+      final newBoardColumns = List<BoardColumnEntity>.from(
+        oldBoard.boardColumns,
+      );
       newBoardColumns.add(newBoardColumn);
       emit(
         HasDataState(
@@ -80,12 +85,13 @@ class BoardPageCubit extends Cubit<BoardPageState> {
         ),
       );
     } on Exception catch (e) {
-      emit(BoardPageError(errorMessage: e.toString()));
+      print('Exception details:\n $e');
     } on Error catch (e) {
-      emit(BoardPageError(errorMessage: e.toString()));
+      print('Error details:\n $e');
+    } catch (e, s) {
+      print('Error details:\n $e');
+      print('Stack details:\n $s');
     }
-
-    // TODO error handling
   }
 }
 
@@ -97,93 +103,27 @@ var _boardColumns = [
     id: Uuid().v4(),
     title: "Ready for Development",
     cards: [
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Second Card",
-        description: "This is the second card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Third Card",
-        description: "This is the third card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Second Card",
-        description: "This is the second card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Third Card",
-        description: "This is the third card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Second Card",
-        description: "This is the second card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Third Card",
-        description: "This is the third card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Second Card",
-        description: "This is the second card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Third Card",
-        description: "This is the third card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Second Card",
-        description: "This is the second card of the first column",
-      ),
-      CardEntity(
-        guid: uuid.v4(),
-        title: "Third Card",
-        description: "This is the third card of the first column",
-      ),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
     ],
   ),
   BoardColumnEntity(
     id: Uuid().v4(),
     title: "In Progress",
-    cards: [
-      CardEntity(
-        guid: uuid.v4(),
-        title: "First Card",
-        description: "This is the first card of the second column",
-      ),
-    ],
+    cards: [CardEntity(guid: uuid.v4(), title: "First Card")],
   ),
   // BoardColumnEntity(
   //   id: Uuid().v4(),
@@ -192,12 +132,10 @@ var _boardColumns = [
   //     CardEntity(
   //       guid: uuid.v4(),
   //       title: "First Card",
-  //       description: "This is the first card of the third column",
   //     ),
   //     CardEntity(
   //       guid: uuid.v4(),
   //       title: "Second Card",
-  //       description: "This is the second card of the third column",
   //     ),
   //   ],
   // ),
@@ -208,12 +146,10 @@ var _boardColumns = [
   //     CardEntity(
   //       guid: uuid.v4(),
   //       title: "First Card",
-  //       description: "This is the first card of the third column",
   //     ),
   //     CardEntity(
   //       guid: uuid.v4(),
   //       title: "Second Card",
-  //       description: "This is the second card of the third column",
   //     ),
   //   ],
   // ),

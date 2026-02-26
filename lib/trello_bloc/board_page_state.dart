@@ -17,12 +17,10 @@ final class BoardPageEmpty extends BoardPageState {
 }
 
 final class BoardPageError extends BoardPageState {
-  const BoardPageError({required this.errorMessage});
-
-  final String errorMessage;
+  const BoardPageError();
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [];
 }
 
 final class HasDataState extends BoardPageState {

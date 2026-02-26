@@ -26,20 +26,16 @@ class BoardColumn extends StatelessWidget {
         ),
         child: BlocProvider<BoardColumnCubit>(
           create: (context) =>
-              BoardColumnCubit(boardColumnEntity: _boardColumn!), // TODO FIX!!!
+              BoardColumnCubit(boardColumnEntity: _boardColumn),
           child: BlocBuilder<BoardColumnCubit, BoardColumnState>(
-            buildWhen: (_, _) => true,
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  state.boardColumnEntity == null
-                      ? BoardTitle.empty(title: "Add a title...")
-                      : BoardTitle(boardColumn: state.boardColumnEntity!),
-                  // TODO Fix
+                  BoardTitle(boardColumn: state.boardColumnEntity),
                   SizedBox(height: 16),
-                  if (state.boardColumnEntity != null)
+                  if (state.boardColumnEntity?.cards != null)
                     Flexible(
                       child: SingleChildScrollView(
                         child: ListView.separated(
@@ -47,7 +43,6 @@ class BoardColumn extends StatelessWidget {
                           key: ValueKey(state.boardColumnEntity!.cards),
                           itemCount:
                               state.boardColumnEntity!.cards?.length ?? 0,
-                          // Fix later
                           separatorBuilder: (BuildContext context, int index) =>
                               SizedBox(height: 4),
                           itemBuilder: (BuildContext context, int index) {
@@ -63,7 +58,6 @@ class BoardColumn extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextButton.icon(
                       onPressed: () {
-                        // TODO make a one-liner
                         context.read<BoardColumnCubit>().addCard(
                           cardTitle: "New Card",
                         );

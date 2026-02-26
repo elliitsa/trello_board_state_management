@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BoardViewError extends StatelessWidget {
-  const BoardViewError({required this.errorMessage, super.key});
+  const BoardViewError({super.key});
 
-  final String errorMessage;
+  final String errorMessage = "Something went wrong.";
 
   @override
   Widget build(BuildContext context) {

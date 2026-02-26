@@ -12,7 +12,6 @@ class BoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO how much do we actually agree to put in the "page" file?
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -45,7 +44,7 @@ class BoardPage extends StatelessWidget {
             return Padding(padding: .all(16.0), child: BoardColumn.empty());
           }
           if (state is BoardPageError) {
-            return BoardViewError(errorMessage: state.errorMessage);
+            return BoardViewError();
           }
 
           BoardEntity board;
