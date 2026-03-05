@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trello_board_state_management/shared/data/board_client.dart';
+import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
+import 'package:trello_board_state_management/trello_riverpod/ui/views/board_view.dart';
 
 class BoardPage extends StatelessWidget {
   const BoardPage({super.key});
@@ -8,7 +12,7 @@ class BoardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Trello Board Roverpod",
+          "Trello Board Riverpod",
           style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
         actions: [
@@ -26,6 +30,26 @@ class BoardPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: Consumer(
+        builder: (context, ref, child) {
+          final board = ref.watch(boardProvider); // TODO
+          // return BoardView(board: board, isOverlayLoading: false);
+          return switch (board) {
+            /// When the request completes successfully
+            AsyncValue(:final value?) => BoardView(
+              board: value,
+              isOverlayLoading: false, // TODO
+            ),
+
+            /// On error
+            AsyncValue(error: != null) => const Text('Error fetching joke'),
+
+            /// Loading
+            AsyncValue() => const Center(child: CircularProgressIndicator()),
+          };
+        },
+      ),
+      // TODO add a mock API, perhaps even share it between bloc and riverpod
     );
   }
 }
