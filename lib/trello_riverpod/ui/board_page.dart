@@ -31,8 +31,7 @@ class BoardPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: Consumer(
         builder: (context, ref, child) {
-          final board = ref.watch(boardProvider); // TODO
-          // return BoardView(board: board, isOverlayLoading: false);
+          final board = ref.watch(boardProvider);
           return switch (board) {
             /// When the request completes successfully
             AsyncValue(:final value?) => BoardView(

@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
 import 'package:trello_board_state_management/shared/domain/card_entity.dart';
