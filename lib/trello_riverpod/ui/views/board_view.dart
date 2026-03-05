@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
+import 'package:trello_board_state_management/trello_riverpod/ui/widgets/board_column.dart';
 
 class BoardView extends StatelessWidget {
   const BoardView({
@@ -21,8 +22,7 @@ class BoardView extends StatelessWidget {
           padding: .all(16.0),
           separatorBuilder: (_, _) => const SizedBox(width: 16),
           itemBuilder: (context, index) =>
-              Container(width: 20, height: 20, color: Colors.black),
-          // BoardColumn(boardColumn: board.boardColumns[index]),
+              BoardColumn(boardColumn: board.boardColumns[index]),
         ),
 
         // Overlay spinner
