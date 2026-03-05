@@ -5,14 +5,14 @@ import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 import 'package:uuid/uuid.dart';
 
 class BoardClient {
-  // TODO I should add the providers in a different directory since we want to reuse the client for the bloc solution as well
+  // TODO use the client for the bloc solution as well
 
   Future<BoardEntity> fetchBoard() async {
     /// Fake API call delay
     await Future.delayed(const Duration(seconds: 1));
     final board = _board;
     return board;
-    /// TODO figure out how to simulate an error to see how riverpod handles errors (apparently riverpod handles errors for us)
+    /// TODO figure out how to simulate an error to see how riverpod handles errors
   }
 }
 

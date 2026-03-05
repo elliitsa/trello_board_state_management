@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trello_board_state_management/shared/data/board_client.dart';
 import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 import 'package:trello_board_state_management/trello_riverpod/ui/views/board_view.dart';
 
