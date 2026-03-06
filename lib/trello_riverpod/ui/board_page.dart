@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 import 'package:trello_board_state_management/trello_riverpod/ui/views/board_view.dart';
 
-class BoardPage extends StatelessWidget {
+class BoardPage extends ConsumerWidget {
   const BoardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final board = ref.watch(boardProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -16,7 +17,7 @@ class BoardPage extends StatelessWidget {
         ),
         actions: [
           IconButton.filledTonal(
-            onPressed: null,
+            onPressed: () => ref.refresh(boardProvider),
             icon: const Icon(Icons.refresh),
           ),
           const SizedBox(width: 8),
@@ -29,18 +30,11 @@ class BoardPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: Consumer(
-        builder: (context, ref, child) {
-          final board = ref.watch(boardProvider);
-          return board.when(
-            data: (value) => BoardView(
-              board: value,
-              isOverlayLoading: board.isLoading,
-            ),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => const Text("Error"),
-          );
-        },
+      body: board.when(
+        data: (value) =>
+            BoardView(board: value, isOverlayLoading: board.isRefreshing),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => const Text("Error"),
       ),
     );
   }
