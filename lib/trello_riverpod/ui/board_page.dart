@@ -32,22 +32,16 @@ class BoardPage extends StatelessWidget {
       body: Consumer(
         builder: (context, ref, child) {
           final board = ref.watch(boardProvider);
-          return switch (board) {
-            /// When the request completes successfully
-            AsyncValue(:final value?) => BoardView(
+          return board.when(
+            data: (value) => BoardView(
               board: value,
-              isOverlayLoading: false, // TODO
+              isOverlayLoading: board.isLoading,
             ),
-
-            /// On error
-            AsyncValue(error: != null) => const Text('Error fetching joke'),
-
-            /// Loading
-            AsyncValue() => const Center(child: CircularProgressIndicator()),
-          };
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => const Text("Error"),
+          );
         },
       ),
-      // TODO add a mock API, perhaps even share it between bloc and riverpod
     );
   }
 }
