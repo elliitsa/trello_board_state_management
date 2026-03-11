@@ -17,12 +17,12 @@ class BoardPage extends ConsumerWidget {
         ),
         actions: [
           IconButton.filledTonal(
-            onPressed: () => ref.refresh(boardProvider),
+            onPressed: () => ref.invalidate(boardProvider),
             icon: const Icon(Icons.refresh),
           ),
           const SizedBox(width: 8),
           IconButton.filledTonal(
-            onPressed: null,
+            onPressed: () => ref.read(boardProvider.notifier).addColumn(),
             icon: const Icon(Icons.add_box_outlined),
           ),
           const SizedBox(width: 24),
