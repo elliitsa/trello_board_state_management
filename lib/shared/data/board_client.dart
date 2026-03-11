@@ -13,10 +13,24 @@ class BoardClient {
     return board;
     /// TODO figure out how to simulate an error to see how riverpod handles errors
   }
+
+  Future<BoardEntity> addColumnToBoard(BoardEntity oldBoard) async {
+    /// Fake API call delay
+    await Future.delayed(const Duration(seconds: 1));
+    final newBoardColumn = BoardColumnEntity(
+      id: Uuid().v4(),
+      title: null,
+      cards: [],
+    );
+    final newBoardColumns = List<BoardColumnEntity>.from(
+      oldBoard.boardColumns,
+    )..add(newBoardColumn);
+    final newBoard = BoardEntity(id: oldBoard.id, boardColumns: newBoardColumns);
+    return newBoard;
+  }
 }
 
 var uuid = Uuid();
-var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
 var _boardColumns = [
   BoardColumnEntity(
     id: uuid.v4(),
@@ -74,3 +88,5 @@ var _boardColumns = [
   // ),
   // BoardColumnEntity(id: Uuid().v4(), title: "Empty Board Column Example", cards: []),
 ];
+var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
+
