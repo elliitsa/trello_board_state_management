@@ -7,7 +7,7 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
   @override
   Future<BoardEntity> build() async {
     final client = ref.watch(boardClientProvider);
-    return client.fetchBoard();
+    return client.fetchBoard(currentBoard: state.value);
   }
 
   Future<void> addColumn() async {

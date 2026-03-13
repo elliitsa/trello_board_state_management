@@ -6,11 +6,12 @@ import 'package:uuid/uuid.dart';
 class BoardClient {
   // TODO use the client for the bloc solution as well
 
-  Future<BoardEntity> fetchBoard() async {
+  Future<BoardEntity> fetchBoard({BoardEntity? currentBoard}) async {
     /// Fake API call delay
     await Future.delayed(const Duration(seconds: 1));
-    final board = _board;
-    return board;
+    /// Refetch the current board to simulate refreshing
+    return currentBoard ?? _board;
+    /// TODO add empty board 
     /// TODO figure out how to simulate an error to see how riverpod handles errors
   }
 
