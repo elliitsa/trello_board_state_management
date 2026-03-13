@@ -8,7 +8,9 @@ class BoardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.watch(boardProvider);
+    final boardRef = ref.watch(boardProvider);
+    final isOverlayLoadingRef = ref.watch(isOverlayLoadingProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -17,7 +19,7 @@ class BoardPage extends ConsumerWidget {
         ),
         actions: [
           IconButton.filledTonal(
-            onPressed: () => ref.invalidate(boardProvider),
+            onPressed: () => ref.refresh(boardProvider),
             icon: const Icon(Icons.refresh),
           ),
           const SizedBox(width: 8),
@@ -30,9 +32,11 @@ class BoardPage extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: board.when(
-        data: (value) =>
-            BoardView(board: value, isOverlayLoading: board.isRefreshing),
+      body: boardRef.when(
+        data: (value) => BoardView(
+          board: value,
+          isOverlayLoading: isOverlayLoadingRef || boardRef.isRefreshing,
+        ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => const Text("Error"),
       ),
