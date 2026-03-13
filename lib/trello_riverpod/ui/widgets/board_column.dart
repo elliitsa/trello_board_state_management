@@ -39,9 +39,7 @@ class BoardColumn extends StatelessWidget {
                     separatorBuilder: (BuildContext context, int index) =>
                         SizedBox(height: 4),
                     itemBuilder: (BuildContext context, int index) {
-                      return TaskCard(
-                        cardEntity: _boardColumn.cards![index],
-                      );
+                      return TaskCard(cardEntity: _boardColumn.cards![index]);
                     },
                   ),
                 ),

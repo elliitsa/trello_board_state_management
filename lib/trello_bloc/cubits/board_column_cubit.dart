@@ -29,7 +29,9 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
   void editColumnTitle(String? value) {
     emit(
       state.copyWith(
-        boardColumnEntity: state.boardColumnEntity?.copyWith(title: value ?? "Add title"),
+        boardColumnEntity: state.boardColumnEntity?.copyWith(
+          title: value ?? "Add title",
+        ),
       ),
     );
   }
