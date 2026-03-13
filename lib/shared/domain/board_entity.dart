@@ -5,7 +5,7 @@ import 'package:trello_board_state_management/shared/domain/board_column_entity.
 
 @immutable
 class BoardEntity extends Equatable {
-  BoardEntity({required this.id, required List boardColumns})
+  BoardEntity({required this.id, required List<BoardColumnEntity> boardColumns})
     : boardColumns = List<BoardColumnEntity>.unmodifiable(boardColumns);
 
   final int id;

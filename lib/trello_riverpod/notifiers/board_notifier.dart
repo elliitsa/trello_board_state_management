@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
 import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 
@@ -16,19 +17,22 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     ref.read(isOverlayLoadingProvider.notifier).state = true;
 
     /// `guard` removes the need for a try/catch block
-    state = await AsyncValue.guard(() async {
-      final repository = ref.read(SharedPreferencesBoardRepositoryProvider);
 
-      final newB = BoardEntity(
-        id: current.id,
-        boardColumns: [
-          ...current.boardColumns,
-          current.boardColumns.length + 1,
-        ],
-      );
+    final repository = ref.read(SharedPreferencesBoardRepositoryProvider);
 
-      return await repository.updateBoard(board: newB);
-    });
+    final newB = BoardEntity(
+      id: current.id,
+      boardColumns: [
+        ...current.boardColumns,
+        BoardColumnEntity(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          title: "New Column",
+          cards: [],
+        ),
+      ],
+    );
+
+    state = AsyncData(await repository.updateBoard(board: newB));
 
     ref.read(isOverlayLoadingProvider.notifier).state = false;
   }

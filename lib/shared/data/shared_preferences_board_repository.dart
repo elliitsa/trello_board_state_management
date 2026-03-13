@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trello_board_state_management/shared/data/dtos/board_dto.dart';
+import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
 import 'package:trello_board_state_management/shared/domain/board_repository.dart';
+import 'package:trello_board_state_management/shared/domain/card_entity.dart';
+import 'package:uuid/uuid.dart';
 
 class SharedPreferencesBoardRepository implements BoardRepository {
   SharedPreferencesBoardRepository();
@@ -37,4 +40,78 @@ class SharedPreferencesBoardRepository implements BoardRepository {
     await prefs.setString('$_keyPrefix${board.id}', jsonString);
     return board;
   }
+
+  @override
+  Future<void> clear() {
+    return SharedPreferences.getInstance().then((prefs) {
+      final keysToRemove = prefs
+          .getKeys()
+          .where((key) => key.startsWith(_keyPrefix))
+          .toList();
+      for (final key in keysToRemove) {
+        prefs.remove(key);
+      }
+    });
+  }
 }
+
+final uuid = Uuid();
+
+final _boardColumns = [
+  BoardColumnEntity(
+    id: uuid.v4(),
+    title: "Ready for Development",
+    cards: [
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+      CardEntity(guid: uuid.v4(), title: "First Card"),
+      CardEntity(guid: uuid.v4(), title: "Second Card"),
+      CardEntity(guid: uuid.v4(), title: "Third Card"),
+    ],
+  ),
+  BoardColumnEntity(
+    id: Uuid().v4(),
+    title: "In Progress",
+    cards: [CardEntity(guid: uuid.v4(), title: "First Card")],
+  ),
+  // BoardColumnEntity(
+  //   id: Uuid().v4(),
+  //   title: "In Review",
+  //   cards: [
+  //     CardEntity(
+  //       guid: uuid.v4(),
+  //       title: "First Card",
+  //     ),
+  //     CardEntity(
+  //       guid: uuid.v4(),
+  //       title: "Second Card",
+  //     ),
+  //   ],
+  // ),
+  // BoardColumnEntity(
+  //   id: Uuid().v4(),
+  //   title: "Done",
+  //   cards: [
+  //     CardEntity(
+  //       guid: uuid.v4(),
+  //       title: "First Card",
+  //     ),
+  //     CardEntity(
+  //       guid: uuid.v4(),
+  //       title: "Second Card",
+  //     ),
+  //   ],
+  // ),
+  // BoardColumnEntity(id: Uuid().v4(), title: "Empty Board Column Example", cards: []),
+];
+var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
