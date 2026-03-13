@@ -13,7 +13,7 @@ class RiverpodApp extends StatelessWidget {
     MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp(
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-      home: BoardPage(),
+      home: const BoardPage(),
     );
   }
 }

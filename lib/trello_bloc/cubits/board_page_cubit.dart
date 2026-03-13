@@ -100,7 +100,7 @@ var uuid = Uuid();
 var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
 var _boardColumns = [
   BoardColumnEntity(
-    id: Uuid().v4(),
+    id: uuid.v4(),
     title: "Ready for Development",
     cards: [
       CardEntity(guid: uuid.v4(), title: "First Card"),
