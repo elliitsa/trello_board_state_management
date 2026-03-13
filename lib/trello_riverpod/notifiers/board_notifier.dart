@@ -6,7 +6,7 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
   @override
   Future<BoardEntity> build() async {
     final repository = ref.watch(SharedPreferencesBoardRepositoryProvider);
-    return repository.fetchBoard(id: state.value!.id);
+    return repository.fetchBoard(id: 1);
   }
 
   Future<void> addColumn() async {
