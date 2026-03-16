@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({
-    required this.cardEntity,
-    super.key,
-  });
+  const TaskCard({required this.cardEntity, super.key});
 
   final CardEntity cardEntity;
 
@@ -14,10 +11,7 @@ class TaskCard extends StatelessWidget {
     return Card(
       color: Theme.of(context).colorScheme.surfaceContainerLowest,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: SizedBox(
           height: 60,
           child: Text(

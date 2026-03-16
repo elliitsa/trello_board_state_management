@@ -24,10 +24,7 @@ final class BoardPageError extends BoardPageState {
 }
 
 final class HasDataState extends BoardPageState {
-  const HasDataState({
-    required this.boardEntity,
-    this.isLoading = false,
-  });
+  const HasDataState({required this.boardEntity, this.isLoading = false});
 
   final BoardEntity boardEntity;
   final bool isLoading;

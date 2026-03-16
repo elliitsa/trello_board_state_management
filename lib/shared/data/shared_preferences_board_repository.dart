@@ -1,38 +1,63 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trello_board_state_management/shared/data/dtos/board_dto.dart';
 import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
+import 'package:trello_board_state_management/shared/domain/board_repository.dart';
 import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 import 'package:uuid/uuid.dart';
 
-class BoardClient {
-  // TODO use the client for the bloc solution as well
+class SharedPreferencesBoardRepository implements BoardRepository {
+  SharedPreferencesBoardRepository();
 
-  Future<BoardEntity> fetchBoard({BoardEntity? currentBoard}) async {
-    /// Fake API call delay
-    await Future.delayed(const Duration(seconds: 1));
-    /// Refetch the current board to simulate refreshing
-    return currentBoard ?? _board;
-    /// TODO add empty board 
-    /// TODO figure out how to simulate an error to see how riverpod handles errors
+  static const String _keyPrefix = 'board_';
+
+  @override
+  Future<BoardEntity> fetchBoard({required int id}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final jsonString = prefs.getString('$_keyPrefix$id');
+
+    if (jsonString == null) {
+      throw Exception('Board with id $id not found');
+    }
+
+    final dto = BoardDto.fromJson(
+      jsonDecode(jsonString) as Map<String, dynamic>,
+    );
+
+    return dto.toEntity();
   }
 
-  Future<BoardEntity> addColumnToBoard(BoardEntity oldBoard) async {
-    /// Fake API call delay
-    await Future.delayed(const Duration(seconds: 1));
-    final newBoardColumn = BoardColumnEntity(
-      id: Uuid().v4(),
-      title: null,
-      cards: [],
-    );
-    final newBoardColumns = List<BoardColumnEntity>.from(
-      oldBoard.boardColumns,
-    )..add(newBoardColumn);
-    final newBoard = BoardEntity(id: oldBoard.id, boardColumns: newBoardColumns);
-    return newBoard;
+  @override
+  Future<BoardEntity> updateBoard({required BoardEntity board}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final dto = BoardDto.fromEntity(board);
+    final jsonString = jsonEncode(dto.toJson());
+
+    await prefs.setString('$_keyPrefix${board.id}', jsonString);
+    return board;
+  }
+
+  @override
+  Future<void> clear() {
+    return SharedPreferences.getInstance().then((prefs) {
+      final keysToRemove = prefs
+          .getKeys()
+          .where((key) => key.startsWith(_keyPrefix))
+          .toList();
+      for (final key in keysToRemove) {
+        prefs.remove(key);
+      }
+    });
   }
 }
 
-var uuid = Uuid();
-var _boardColumns = [
+final uuid = Uuid();
+
+final _boardColumns = [
   BoardColumnEntity(
     id: uuid.v4(),
     title: "Ready for Development",
@@ -90,4 +115,3 @@ var _boardColumns = [
   // BoardColumnEntity(id: Uuid().v4(), title: "Empty Board Column Example", cards: []),
 ];
 var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
-

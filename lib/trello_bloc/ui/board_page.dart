@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trello_board_state_management/shared/data/shared_preferences_board_repository.dart';
 import 'package:trello_board_state_management/trello_bloc/cubits/board_page_cubit.dart';
 
 import 'package:trello_board_state_management/shared/domain/board_entity.dart';
@@ -13,6 +14,8 @@ class BoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // clean arch violation detected beep
+      floatingActionButton: FloatingActionButton(onPressed: () async => SharedPreferencesBoardRepository().clear()),
       appBar: AppBar(
         title: Text(
           "Trello Board BloC",
