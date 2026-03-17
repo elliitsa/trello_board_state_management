@@ -8,8 +8,9 @@ class BoardService {
   final BoardRepository _repository;
 
   /// Fetches the board
-  Future<BoardEntity> fetchBoard({required int id}) async {
+  Future<BoardEntity> fetchBoard() async {
     /// TODO Add error handling
+    final id = 1;
     return await _repository.fetchBoard(id: id);
   }
 

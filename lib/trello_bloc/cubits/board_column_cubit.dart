@@ -11,6 +11,7 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
     : super(BoardColumnState(boardColumnEntity: boardColumnEntity));
 
   Future<void> addCard({required String cardTitle}) async {
+    /// TODO implement call to the repository
     final newCard = CardEntity(guid: Uuid().v4(), title: cardTitle);
 
     final oldCardList = state.boardColumnEntity?.cards;
@@ -27,6 +28,7 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
   }
 
   void editColumnTitle(String? value) {
+    /// TODO implement call to the repository
     emit(
       state.copyWith(
         boardColumnEntity: state.boardColumnEntity?.copyWith(

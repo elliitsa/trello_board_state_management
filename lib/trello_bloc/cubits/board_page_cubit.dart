@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:trello_board_state_management/core.dart';
 import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
 import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
 import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
@@ -8,7 +9,11 @@ import 'package:uuid/uuid.dart';
 part 'board_page_state.dart';
 
 class BoardPageCubit extends Cubit<BoardPageState> {
-  BoardPageCubit() : super(BoardPageLoading());
+  BoardPageCubit({required BoardService service})
+    : _service = service,
+      super(BoardPageLoading());
+
+  final BoardService _service;
 
   Future<void> loadBoard() async {
     if (state is BoardPageLoading) {
@@ -23,20 +28,15 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
 
     try {
-      // Fake API delay
-      await Future.delayed(const Duration(seconds: 1));
-      BoardEntity board;
-      if (state is BoardPageLoading) {
-        board = _board;
-      } else {
-        board = (state as HasDataState).boardEntity;
-      }
+      final board = await _service.fetchBoard();
+
       if (board.boardColumns.isEmpty) {
         emit(BoardPageEmpty());
       } else {
         emit(HasDataState(boardEntity: board, isLoading: false));
       }
     } on Exception catch (e) {
+      /// TODO please fix this...
       print('Exception details:\n $e');
       emit(BoardPageError());
     } on Error catch (e) {
@@ -62,9 +62,6 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
 
     try {
-      // Fake API delay
-      await Future.delayed(const Duration(milliseconds: 500));
-
       final newBoardColumn = ColumnEntity(
         id: Uuid().v4(),
         title: null,
@@ -73,13 +70,16 @@ class BoardPageCubit extends Cubit<BoardPageState> {
 
       final oldBoard = (state as HasDataState).boardEntity;
 
-      final newBoardColumns = List<ColumnEntity>.from(
-        oldBoard.boardColumns,
-      );
+      final newBoardColumns = List<ColumnEntity>.from(oldBoard.boardColumns);
       newBoardColumns.add(newBoardColumn);
+
+      final newBoard = await _service.updateBoard(
+        board: oldBoard.copyWith(boardColumns: newBoardColumns),
+      );
+
       emit(
         HasDataState(
-          boardEntity: oldBoard.copyWith(boardColumns: newBoardColumns),
+          boardEntity: newBoard,
           isLoading: false,
         ),
       );
@@ -93,64 +93,3 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
   }
 }
-
-var uuid = Uuid();
-
-var _board = BoardEntity(id: 1, boardColumns: _boardColumns);
-var _boardColumns = [
-  ColumnEntity(
-    id: uuid.v4(),
-    title: "Ready for Development",
-    cards: [
-      CardEntity(guid: uuid.v4(), title: "First Card"),
-      CardEntity(guid: uuid.v4(), title: "Second Card"),
-      CardEntity(guid: uuid.v4(), title: "Third Card"),
-      CardEntity(guid: uuid.v4(), title: "First Card"),
-      CardEntity(guid: uuid.v4(), title: "Second Card"),
-      CardEntity(guid: uuid.v4(), title: "Third Card"),
-      CardEntity(guid: uuid.v4(), title: "First Card"),
-      CardEntity(guid: uuid.v4(), title: "Second Card"),
-      CardEntity(guid: uuid.v4(), title: "Third Card"),
-      CardEntity(guid: uuid.v4(), title: "First Card"),
-      CardEntity(guid: uuid.v4(), title: "Second Card"),
-      CardEntity(guid: uuid.v4(), title: "Third Card"),
-      CardEntity(guid: uuid.v4(), title: "First Card"),
-      CardEntity(guid: uuid.v4(), title: "Second Card"),
-      CardEntity(guid: uuid.v4(), title: "Third Card"),
-    ],
-  ),
-  ColumnEntity(
-    id: Uuid().v4(),
-    title: "In Progress",
-    cards: [CardEntity(guid: uuid.v4(), title: "First Card")],
-  ),
-  // BoardColumnEntity(
-  //   id: Uuid().v4(),
-  //   title: "In Review",
-  //   cards: [
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "First Card",
-  //     ),
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "Second Card",
-  //     ),
-  //   ],
-  // ),
-  // BoardColumnEntity(
-  //   id: Uuid().v4(),
-  //   title: "Done",
-  //   cards: [
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "First Card",
-  //     ),
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "Second Card",
-  //     ),
-  //   ],
-  // ),
-  // BoardColumnEntity(id: Uuid().v4(), title: "Empty Board Column Example", cards: []),
-];
