@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trello_board_state_management/shared/data/shared_preferences_board_repository.dart';
 import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 import 'package:trello_board_state_management/trello_riverpod/ui/views/board_view.dart';
 
@@ -13,8 +12,6 @@ class BoardPage extends ConsumerWidget {
     final isOverlayLoadingRef = ref.watch(isOverlayLoadingProvider);
 
     return Scaffold(
-      // clean arch violation detected beep
-      floatingActionButton: FloatingActionButton(onPressed: () async => SharedPreferencesBoardRepository().clear()),
       appBar: AppBar(
         title: Text(
           "Trello Board Riverpod",

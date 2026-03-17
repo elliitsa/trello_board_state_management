@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 
 @immutable
-class BoardColumnEntity extends Equatable {
-  BoardColumnEntity({
+class ColumnEntity extends Equatable {
+  ColumnEntity({
     required this.id,
     required this.title,
     List<CardEntity>? cards,
@@ -17,8 +17,8 @@ class BoardColumnEntity extends Equatable {
   @override
   List<Object?> get props => [id, title, cards];
 
-  BoardColumnEntity copyWith({String? title, List<CardEntity>? cards}) {
-    return BoardColumnEntity(
+  ColumnEntity copyWith({String? title, List<CardEntity>? cards}) {
+    return ColumnEntity(
       id: id,
       title: title ?? this.title,
       cards: cards ?? this.cards,

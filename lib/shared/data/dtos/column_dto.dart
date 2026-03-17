@@ -1,5 +1,5 @@
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
 import 'package:trello_board_state_management/shared/data/dtos/card_dto.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
 
 class BoardColumnDto {
   const BoardColumnDto({required this.id, required this.title, this.cards});
@@ -26,7 +26,7 @@ class BoardColumnDto {
     };
   }
 
-  factory BoardColumnDto.fromEntity(BoardColumnEntity entity) {
+  factory BoardColumnDto.fromEntity(ColumnEntity entity) {
     return BoardColumnDto(
       id: entity.id,
       title: entity.title,
@@ -34,8 +34,8 @@ class BoardColumnDto {
     );
   }
 
-  BoardColumnEntity toEntity() {
-    return BoardColumnEntity(
+  ColumnEntity toEntity() {
+    return ColumnEntity(
       id: id,
       title: title,
       cards: cards?.map((c) => c.toEntity()).toList(),

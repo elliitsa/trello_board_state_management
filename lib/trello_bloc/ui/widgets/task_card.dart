@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({required this.cardEntity, super.key});

@@ -7,7 +7,7 @@ class BoardColumnState extends Equatable {
     this.errorMessage,
   });
 
-  final BoardColumnEntity? boardColumnEntity;
+  final ColumnEntity? boardColumnEntity;
   final bool? loading;
   final String? errorMessage;
 
@@ -15,7 +15,7 @@ class BoardColumnState extends Equatable {
   List<Object?> get props => [boardColumnEntity, loading, errorMessage];
 
   BoardColumnState copyWith({
-    BoardColumnEntity? boardColumnEntity,
+    ColumnEntity? boardColumnEntity,
     bool? loading,
     String? errorMessage,
   }) {

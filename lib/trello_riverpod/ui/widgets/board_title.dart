@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
 
 class BoardTitle extends StatelessWidget {
   const BoardTitle({required this.boardColumn, super.key});
 
-  final BoardColumnEntity? boardColumn;
+  final ColumnEntity? boardColumn;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
+import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
 import 'package:trello_board_state_management/shared/data/dtos/column_dto.dart';
-import 'package:trello_board_state_management/shared/domain/board_entity.dart';
 
 class BoardDto {
   const BoardDto({required this.id, required this.boardColumns});

@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 import 'package:uuid/uuid.dart';
 
 part 'board_column_state.dart';
 
 class BoardColumnCubit extends Cubit<BoardColumnState> {
-  BoardColumnCubit({required BoardColumnEntity? boardColumnEntity})
+  BoardColumnCubit({required ColumnEntity? boardColumnEntity})
     : super(BoardColumnState(boardColumnEntity: boardColumnEntity));
 
   Future<void> addCard({required String cardTitle}) async {
@@ -35,6 +35,4 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
       ),
     );
   }
-
-  // delete column
 }
