@@ -95,34 +95,5 @@ final _boardColumns = [
     title: "In Progress",
     cards: [CardEntity(guid: uuid.v4(), title: "First Card")],
   ),
-  // BoardColumnEntity(
-  //   id: Uuid().v4(),
-  //   title: "In Review",
-  //   cards: [
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "First Card",
-  //     ),
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "Second Card",
-  //     ),
-  //   ],
-  // ),
-  // BoardColumnEntity(
-  //   id: Uuid().v4(),
-  //   title: "Done",
-  //   cards: [
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "First Card",
-  //     ),
-  //     CardEntity(
-  //       guid: uuid.v4(),
-  //       title: "Second Card",
-  //     ),
-  //   ],
-  // ),
-  // BoardColumnEntity(id: Uuid().v4(), title: "Empty Board Column Example", cards: []),
 ];
 var _board = BoardEntity(id: 1, boardColumns: _boardColumns);

@@ -6,4 +6,5 @@ abstract interface class BoardRepository {
   Future<BoardEntity> fetchBoard({required int id});
 
   Future<BoardEntity> updateBoard({required BoardEntity board});
+
 }
