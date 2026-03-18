@@ -24,7 +24,7 @@ class BoardPage extends ConsumerWidget {
           ),
           const SizedBox(width: 8),
           IconButton.filledTonal(
-            onPressed: () => ref.read(boardProvider.notifier).addColumn(),
+            onPressed: ref.read(boardProvider.notifier).addColumn,
             icon: const Icon(Icons.add_box_outlined),
           ),
           const SizedBox(width: 24),

@@ -5,10 +5,9 @@ import 'package:trello_board_state_management/shared/core/services/board_service
 import 'package:trello_board_state_management/trello_riverpod/notifiers/board_notifier.dart';
 import 'package:trello_board_state_management/trello_riverpod/notifiers/board_overlay_notifier.dart';
 
-final boardServiceProvider =
-    Provider<BoardService>((ref) {
-      return IocContainer.container.get<BoardService>();
-    });
+final boardServiceProvider = Provider<BoardService>((ref) {
+  return IocContainer.container.get<BoardService>();
+});
 
 final boardProvider =
     AsyncNotifierProvider.autoDispose<BoardNotifier, BoardEntity>(
