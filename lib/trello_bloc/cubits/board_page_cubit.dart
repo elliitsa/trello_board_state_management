@@ -45,6 +45,33 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
   }
 
+  Future<void> deleteColumn(String columnId) async {
+    if (state is BoardPageLoading) {
+      /// TODO repeats too much
+      emit(BoardPageLoading());
+    } else {
+      emit(
+        HasDataState(
+          boardEntity: (state as HasDataState).boardEntity,
+          isLoading: true,
+        ),
+      );
+    }
+
+    try {
+      final newBoard = await _service.deleteColumn(id: columnId);
+
+      emit(HasDataState(boardEntity: newBoard, isLoading: false));
+    } on Exception catch (e) {
+      print('Exception details:\n $e');
+    } on Error catch (e) {
+      print('Error details:\n $e');
+    } catch (e, s) {
+      print('Error details:\n $e');
+      print('Stack details:\n $s');
+    }
+  }
+
   Future<void> addBoardColumn() async {
     if (state is BoardPageLoading) {
       emit(BoardPageLoading());

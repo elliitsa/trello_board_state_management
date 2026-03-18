@@ -15,15 +15,23 @@ class BoardService {
 
   Future<ColumnEntity> fetchColumn({required String columnId}) async {
     final board = await fetchBoard();
-    return board.boardColumns.firstWhere(
-      (column) => column.id == columnId,
-    );
+    return board.boardColumns.firstWhere((column) => column.id == columnId);
   }
 
   Future<BoardEntity> updateBoard({required BoardEntity board}) async {
     /// TODO Add error handling
-
     return await _repository.updateBoard(board: board);
+  }
+
+  Future<BoardEntity> deleteColumn({required String id}) async {
+    final board = await fetchBoard();
+    final updatedColumns = board.boardColumns
+        .where((column) => column.id != id)
+        .toList();
+
+    return await updateBoard(
+      board: board.copyWith(boardColumns: updatedColumns),
+    );
   }
 
   // TODO add also loading for riverpod
@@ -64,7 +72,7 @@ class BoardService {
       board: board.copyWith(boardColumns: updatedColumns),
     );
     return updatedBoard.boardColumns.firstWhere(
-          (column) => column.id == columnId,
+      (column) => column.id == columnId,
     );
   }
 }

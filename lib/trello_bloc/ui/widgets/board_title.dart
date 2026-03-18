@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
 import 'package:trello_board_state_management/trello_bloc/cubits/board_column_cubit.dart';
+import 'package:trello_board_state_management/trello_bloc/cubits/board_page_cubit.dart';
 
 class BoardTitle extends StatelessWidget {
   const BoardTitle({required this.boardColumn, super.key});
@@ -46,6 +47,13 @@ class BoardTitle extends StatelessWidget {
             count: boardColumn?.cards?.length ?? 0,
             backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
             padding: .all(4),
+          ),
+          SizedBox(width: 8),
+          IconButton(
+            onPressed: () {
+              context.read<BoardPageCubit>().deleteColumn(boardColumn!.id);
+            },
+            icon: Icon(Icons.delete),
           ),
         ],
       ),
