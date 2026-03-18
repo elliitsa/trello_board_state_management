@@ -49,6 +49,15 @@ class BoardTitle extends ConsumerWidget {
             backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
             padding: .all(4),
           ),
+          SizedBox(width: 8),
+          IconButton(
+            onPressed: () {
+              ref
+                  .read(boardProvider.notifier)
+                  .deleteColumn(boardColumn!.id);
+            },
+            icon: Icon(Icons.delete),
+          ),
         ],
       ),
     );

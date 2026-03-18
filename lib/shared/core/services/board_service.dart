@@ -23,10 +23,10 @@ class BoardService {
     return await _repository.updateBoard(board: board);
   }
 
-  Future<BoardEntity> deleteColumn({required String id}) async {
+  Future<BoardEntity> deleteColumn({required String columnId}) async {
     final board = await fetchBoard();
     final updatedColumns = board.boardColumns
-        .where((column) => column.id != id)
+        .where((column) => column.id != columnId)
         .toList();
 
     return await updateBoard(

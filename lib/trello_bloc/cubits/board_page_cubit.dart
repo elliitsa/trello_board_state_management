@@ -59,7 +59,7 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
 
     try {
-      final newBoard = await _service.deleteColumn(id: columnId);
+      final newBoard = await _service.deleteColumn(columnId: columnId);
 
       emit(HasDataState(boardEntity: newBoard, isLoading: false));
     } on Exception catch (e) {

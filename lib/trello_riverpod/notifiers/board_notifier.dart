@@ -74,7 +74,21 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     );
 
     ref.read(isOverlayLoadingProvider.notifier).state = false;
-
   }
 
+  Future<void> deleteColumn(String columnId) async {
+    final current = state.value;
+    if (current == null) return;
+
+    ref.read(isOverlayLoadingProvider.notifier).state = true;
+
+    final service = ref.read(boardServiceProvider);
+    final result = await service.deleteColumn(
+      columnId: columnId,
+    );
+
+    state = AsyncData(result);
+
+    ref.read(isOverlayLoadingProvider.notifier).state = false;
+  }
 }
