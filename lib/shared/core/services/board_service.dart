@@ -1,6 +1,8 @@
+import 'package:trello_board_state_management/core.dart';
 import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
 import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 import 'package:trello_board_state_management/shared/core/repositories/board_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class BoardService {
   BoardService({required BoardRepository repository})
@@ -19,12 +21,10 @@ class BoardService {
     return await _repository.updateBoard(board: board);
   }
 
-  Future<BoardEntity> addCardToColumn({
-    required int boardId,
-    required String columnId,
-    required CardEntity card,
-  }) async {
+  // TODO add also loading for riverpod
+  Future<ColumnEntity> addCardToColumn({required String columnId}) async {
     final board = await fetchBoard();
+    final card = CardEntity(guid: Uuid().v4(), title: "New Card");
 
     final updatedColumns = board.boardColumns.map((column) {
       if (column.id == columnId) {
@@ -35,12 +35,15 @@ class BoardService {
       return column;
     }).toList();
 
-    final updatedBoard = board.copyWith(boardColumns: updatedColumns);
-    return await updateBoard(board: updatedBoard);
+    final updatedBoard = await updateBoard(
+      board: board.copyWith(boardColumns: updatedColumns),
+    );
+    return updatedBoard.boardColumns.firstWhere(
+      (column) => column.id == columnId,
+    );
   }
 
-  Future<BoardEntity> updateColumnTitle({
-    required int boardId,
+  Future<ColumnEntity> updateColumnTitle({
     required String columnId,
     required String title,
   }) async {
@@ -52,7 +55,11 @@ class BoardService {
       return column;
     }).toList();
 
-    final updatedBoard = board.copyWith(boardColumns: updatedColumns);
-    return updateBoard(board: updatedBoard);
+    final updatedBoard = await updateBoard(
+      board: board.copyWith(boardColumns: updatedColumns),
+    );
+    return updatedBoard.boardColumns.firstWhere(
+          (column) => column.id == columnId,
+    );
   }
 }

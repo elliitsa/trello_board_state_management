@@ -7,7 +7,7 @@ class BoardColumnState extends Equatable {
     this.errorMessage,
   });
 
-  final ColumnEntity? boardColumnEntity;
+  final ColumnEntity boardColumnEntity;
   final bool? loading;
   final String? errorMessage;
 

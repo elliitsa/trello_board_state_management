@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ioc/flutter_ioc.dart';
 import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
+import 'package:trello_board_state_management/shared/core/services/board_service.dart';
 import 'package:trello_board_state_management/trello_bloc/cubits/board_column_cubit.dart';
 import 'package:trello_board_state_management/trello_bloc/ui/widgets/board_title.dart';
 import 'package:trello_board_state_management/trello_bloc/ui/widgets/task_card.dart';
@@ -25,8 +27,10 @@ class BoardColumn extends StatelessWidget {
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
         ),
         child: BlocProvider<BoardColumnCubit>(
-          create: (context) =>
-              BoardColumnCubit(boardColumnEntity: _boardColumn),
+          create: (context) => BoardColumnCubit(
+            boardColumnEntity: _boardColumn ?? ColumnEntity.empty(),
+            service: IocContainer.container.get<BoardService>(),
+          ),
           child: BlocBuilder<BoardColumnCubit, BoardColumnState>(
             builder: (context, state) {
               return Column(
@@ -35,20 +39,18 @@ class BoardColumn extends StatelessWidget {
                 children: [
                   BoardTitle(boardColumn: state.boardColumnEntity),
                   SizedBox(height: 16),
-                  if (state.boardColumnEntity?.cards != null)
+                  if (state.boardColumnEntity.cards != null)
                     Flexible(
                       child: SingleChildScrollView(
                         child: ListView.separated(
                           shrinkWrap: true,
-                          key: ValueKey(state.boardColumnEntity!.cards),
-                          itemCount:
-                              state.boardColumnEntity!.cards?.length ?? 0,
+                          key: ValueKey(state.boardColumnEntity.cards),
+                          itemCount: state.boardColumnEntity.cards?.length ?? 0,
                           separatorBuilder: (BuildContext context, int index) =>
                               SizedBox(height: 4),
                           itemBuilder: (BuildContext context, int index) {
                             return TaskCard(
-                              cardEntity:
-                                  state.boardColumnEntity!.cards![index],
+                              cardEntity: state.boardColumnEntity.cards![index],
                             );
                           },
                         ),
@@ -58,9 +60,7 @@ class BoardColumn extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextButton.icon(
                       onPressed: () {
-                        context.read<BoardColumnCubit>().addCard(
-                          cardTitle: "New Card",
-                        );
+                        context.read<BoardColumnCubit>().addCard();
                       },
                       label: Text("Add a card"),
                       icon: Icon(Icons.add),

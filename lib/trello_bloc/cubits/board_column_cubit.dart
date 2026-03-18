@@ -1,40 +1,40 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
-import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
-import 'package:uuid/uuid.dart';
+import 'package:trello_board_state_management/core.dart';
 
 part 'board_column_state.dart';
 
 class BoardColumnCubit extends Cubit<BoardColumnState> {
-  BoardColumnCubit({required ColumnEntity? boardColumnEntity})
-    : super(BoardColumnState(boardColumnEntity: boardColumnEntity));
+  BoardColumnCubit({
+    required ColumnEntity boardColumnEntity,
+    required BoardService service,
+  }) : _service = service,
+       super(
+         BoardColumnState(boardColumnEntity: boardColumnEntity),
+       );
 
-  Future<void> addCard({required String cardTitle}) async {
-    /// TODO implement call to the repository
-    final newCard = CardEntity(guid: Uuid().v4(), title: cardTitle);
+  final BoardService _service;
 
-    final oldCardList = state.boardColumnEntity?.cards;
-    final newCardList = List<CardEntity>.from(oldCardList!);
-    newCardList.add(newCard);
+  Future<void> addCard() async {
 
-    emit(
-      state.copyWith(
-        boardColumnEntity: state.boardColumnEntity?.copyWith(
-          cards: newCardList,
-        ),
-      ),
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.addCardToColumn(
+      columnId: state.boardColumnEntity.id,
     );
+
+    emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false)); // TODO updates the loading view
   }
 
-  void editColumnTitle(String? value) {
-    /// TODO implement call to the repository
-    emit(
-      state.copyWith(
-        boardColumnEntity: state.boardColumnEntity?.copyWith(
-          title: value ?? "Add title",
-        ),
-      ),
+  void editColumnTitle(String? value) async { // TODO add loading indicator after a change with a debounce
+
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.updateColumnTitle(
+      columnId: state.boardColumnEntity.id,
+      title: value ?? "Add title",
     );
+
+    emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false));
   }
 }
