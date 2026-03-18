@@ -1,7 +1,4 @@
 import 'package:trello_board_state_management/core.dart';
-import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
-import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
-import 'package:trello_board_state_management/shared/core/repositories/board_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class BoardService {
@@ -16,8 +13,16 @@ class BoardService {
     return await _repository.fetchBoard(id: id);
   }
 
+  Future<ColumnEntity> fetchColumn({required String columnId}) async {
+    final board = await fetchBoard();
+    return board.boardColumns.firstWhere(
+      (column) => column.id == columnId,
+    );
+  }
+
   Future<BoardEntity> updateBoard({required BoardEntity board}) async {
     /// TODO Add error handling
+
     return await _repository.updateBoard(board: board);
   }
 

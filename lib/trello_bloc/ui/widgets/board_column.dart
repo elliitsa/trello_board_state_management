@@ -28,9 +28,9 @@ class BoardColumn extends StatelessWidget {
         ),
         child: BlocProvider<BoardColumnCubit>(
           create: (context) => BoardColumnCubit(
-            boardColumnEntity: _boardColumn ?? ColumnEntity.empty(),
             service: IocContainer.container.get<BoardService>(),
-          ),
+            boardColumn: _boardColumn ?? ColumnEntity.empty(),
+          )..fetchColumn(_boardColumn?.id),
           child: BlocBuilder<BoardColumnCubit, BoardColumnState>(
             builder: (context, state) {
               return Column(

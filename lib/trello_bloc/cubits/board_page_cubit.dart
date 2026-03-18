@@ -1,10 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trello_board_state_management/core.dart';
-import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
-import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
-import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
-import 'package:uuid/uuid.dart';
 
 part 'board_page_state.dart';
 
@@ -62,11 +58,7 @@ class BoardPageCubit extends Cubit<BoardPageState> {
     }
 
     try {
-      final newBoardColumn = ColumnEntity(
-        id: Uuid().v4(),
-        title: null,
-        cards: [],
-      );
+      final newBoardColumn = ColumnEntity.empty();
 
       final oldBoard = (state as HasDataState).boardEntity;
 
@@ -77,12 +69,7 @@ class BoardPageCubit extends Cubit<BoardPageState> {
         board: oldBoard.copyWith(boardColumns: newBoardColumns),
       );
 
-      emit(
-        HasDataState(
-          boardEntity: newBoard,
-          isLoading: false,
-        ),
-      );
+      emit(HasDataState(boardEntity: newBoard, isLoading: false));
     } on Exception catch (e) {
       print('Exception details:\n $e');
     } on Error catch (e) {

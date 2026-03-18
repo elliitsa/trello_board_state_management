@@ -12,7 +12,7 @@ class ColumnEntity extends Equatable {
     List<CardEntity>? cards,
   }) : cards = List<CardEntity>.unmodifiable(cards ?? const []);
 
-  ColumnEntity.empty() : id = Uuid().v4(), title = null, cards = []; // TODO use also in riverpod
+  ColumnEntity.empty() : id = Uuid().v4(), title = null, cards = const []; // TODO use also in riverpod
 
   final String id;
   final String? title;
