@@ -34,6 +34,33 @@ class BoardService {
     );
   }
 
+  Future<ColumnEntity> deleteCard({
+    required String columnId,
+    required String cardId,
+  }) async {
+    final board = await fetchBoard();
+    final column = board.boardColumns.firstWhere(
+      (column) => column.id == columnId,
+    );
+    final updatedCards =
+        column.cards?.where((card) => card.guid != cardId).toList() ?? [];
+
+    final updatedColumns = board.boardColumns.map((column) {
+      if (column.id == columnId) {
+        return column.copyWith(cards: updatedCards);
+      }
+      return column;
+    }).toList();
+
+    final updatedBoard = await updateBoard(
+      board: board.copyWith(boardColumns: updatedColumns),
+    );
+
+    return updatedBoard.boardColumns.firstWhere(
+      (column) => column.id == columnId,
+    );
+  }
+
   // TODO add also loading for riverpod
   Future<ColumnEntity> addCardToColumn({required String columnId}) async {
     final board = await fetchBoard();

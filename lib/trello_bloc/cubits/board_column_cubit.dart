@@ -45,4 +45,17 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
 
     emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false));
   }
+
+  Future<void> deleteCard({
+    required String cardId,
+  }) async {
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.deleteCard(
+      columnId: state.boardColumnEntity.id,
+      cardId: cardId,
+    );
+
+    emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: true));
+  }
 }
