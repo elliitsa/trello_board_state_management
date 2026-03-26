@@ -32,15 +32,10 @@ class BoardPageCubit extends Cubit<BoardPageState> {
         emit(HasDataState(boardEntity: board, isLoading: false));
       }
     } on Exception catch (e) {
-      /// TODO please fix this...
-      print('Exception details:\n $e');
       emit(BoardPageError());
     } on Error catch (e) {
-      print('Error details:\n $e');
       emit(BoardPageError());
     } catch (e, s) {
-      print('Error details:\n $e');
-      print('Stack details:\n $s');
       emit(BoardPageError());
     }
   }

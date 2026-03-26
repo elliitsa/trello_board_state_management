@@ -37,20 +37,20 @@ class BoardColumn extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  BoardTitle(boardColumn: state.boardColumnEntity),
+                  BoardTitle(boardColumn: state.columnEntity),
                   SizedBox(height: 16),
-                  if (state.boardColumnEntity.cards != null)
+                  if (state.columnEntity.cards != null)
                     Flexible(
                       child: SingleChildScrollView(
                         child: ListView.separated(
                           shrinkWrap: true,
-                          key: ValueKey(state.boardColumnEntity.cards),
-                          itemCount: state.boardColumnEntity.cards?.length ?? 0,
+                          key: ValueKey(state.columnEntity.cards),
+                          itemCount: state.columnEntity.cards?.length ?? 0,
                           separatorBuilder: (BuildContext context, int index) =>
                               SizedBox(height: 4),
                           itemBuilder: (BuildContext context, int index) {
                             return TaskCard(
-                              cardEntity: state.boardColumnEntity.cards![index],
+                              cardEntity: state.columnEntity.cards![index],
                             );
                           },
                         ),
