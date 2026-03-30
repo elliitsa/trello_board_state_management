@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
+import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 import 'package:trello_board_state_management/trello_riverpod/ui/widgets/board_title.dart';
 import 'package:trello_board_state_management/trello_riverpod/ui/widgets/task_card.dart';
 
-class BoardColumn extends StatelessWidget {
-  const BoardColumn({required BoardColumnEntity boardColumn, super.key})
+class BoardColumn extends ConsumerWidget {
+  const BoardColumn({required ColumnEntity boardColumn, super.key})
     : _boardColumn = boardColumn;
 
-  const BoardColumn.empty({super.key})
-    : _boardColumn = null; // TODO use it somewhere?
-
-  final BoardColumnEntity? _boardColumn;
+  final ColumnEntity? _boardColumn;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
@@ -44,18 +43,16 @@ class BoardColumn extends StatelessWidget {
                   ),
                 ),
               ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-            //   child: TextButton.icon(
-            //     onPressed: () {
-            //       context.read<BoardColumnCubit>().addCard(
-            //         cardTitle: "New Card",
-            //       );
-            //     },
-            //     label: Text("Add a card"),
-            //     icon: Icon(Icons.add),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TextButton.icon(
+                onPressed: () {
+                  ref.read(boardProvider.notifier).addCard(_boardColumn!.id);
+                },
+                label: Text("Add a card"),
+                icon: Icon(Icons.add),
+              ),
+            ),
           ],
         ),
       ),

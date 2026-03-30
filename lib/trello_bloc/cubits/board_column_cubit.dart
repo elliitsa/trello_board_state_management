@@ -1,40 +1,48 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
-import 'package:uuid/uuid.dart';
+import 'package:trello_board_state_management/core.dart';
 
 part 'board_column_state.dart';
 
 class BoardColumnCubit extends Cubit<BoardColumnState> {
-  BoardColumnCubit({required BoardColumnEntity? boardColumnEntity})
-    : super(BoardColumnState(boardColumnEntity: boardColumnEntity));
+  BoardColumnCubit({
+    required BoardService service,
+    required ColumnEntity boardColumn,
+  }) : _service = service,
+       super(BoardColumnState(boardColumnEntity: boardColumn));
 
-  Future<void> addCard({required String cardTitle}) async {
-    final newCard = CardEntity(guid: Uuid().v4(), title: cardTitle);
+  final BoardService _service;
 
-    final oldCardList = state.boardColumnEntity?.cards;
-    final newCardList = List<CardEntity>.from(oldCardList!);
-    newCardList.add(newCard);
-
-    emit(
-      state.copyWith(
-        boardColumnEntity: state.boardColumnEntity?.copyWith(
-          cards: newCardList,
-        ),
-      ),
+  Future<void> fetchColumn(String? columnId) async {
+    final fetchedColumn = await _service.fetchColumn(
+      columnId: state.boardColumnEntity.id,
     );
+
+    emit(state.copyWith(boardColumnEntity: fetchedColumn, loading: false));
   }
 
-  void editColumnTitle(String? value) {
-    emit(
-      state.copyWith(
-        boardColumnEntity: state.boardColumnEntity?.copyWith(
-          title: value ?? "Add title",
-        ),
-      ),
+  Future<void> addCard() async {
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.addCardToColumn(
+      columnId: state.boardColumnEntity.id,
     );
+
+    emit(
+      state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false),
+    ); // TODO updates the loading view
   }
 
-  // delete column
+  void editColumnTitle(String? value) async {
+    // TODO add loading indicator after a change with a debounce
+
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.updateColumnTitle(
+      columnId: state.boardColumnEntity.id,
+      title: value ?? "Add title",
+    );
+
+    emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false));
+  }
 }

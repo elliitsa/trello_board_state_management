@@ -1,4 +1,4 @@
-import 'package:trello_board_state_management/shared/domain/card_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 
 class CardDto {
   const CardDto({required this.guid, required this.title});

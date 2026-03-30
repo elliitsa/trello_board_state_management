@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ioc/flutter_ioc.dart';
+import 'package:trello_board_state_management/core.dart';
 import 'package:trello_board_state_management/theme.dart';
 import 'package:trello_board_state_management/trello_bloc/cubits/board_page_cubit.dart';
 import 'package:trello_board_state_management/trello_bloc/ui/board_page.dart';
@@ -16,7 +18,9 @@ class BlocApp extends StatelessWidget {
     return MaterialApp(
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       home: BlocProvider<BoardPageCubit>(
-        create: (BuildContext context) => BoardPageCubit()..loadBoard(),
+        create: (BuildContext context) =>
+            BoardPageCubit(service: IocContainer.container.get<BoardService>())
+              ..loadBoard(),
         child: const BoardPage(),
       ),
     );

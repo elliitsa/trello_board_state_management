@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
+import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 
-class BoardTitle extends StatelessWidget {
+class BoardTitle extends ConsumerWidget {
   const BoardTitle({required this.boardColumn, super.key});
 
-  final BoardColumnEntity? boardColumn;
+  final ColumnEntity? boardColumn;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -15,8 +17,9 @@ class BoardTitle extends StatelessWidget {
           Flexible(
             child: Form(
               child: TextFormField(
-                /// TODO
-                // onChanged: context.read<BoardColumnCubit>().editColumnTitle,
+                onChanged: (String? value) => ref
+                    .read(boardProvider.notifier)
+                    .updateColumnTitle(boardColumn!.id, value),
                 keyboardType: TextInputType.text,
                 initialValue: boardColumn?.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(

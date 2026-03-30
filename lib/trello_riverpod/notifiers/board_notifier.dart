@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trello_board_state_management/shared/domain/board_column_entity.dart';
-import 'package:trello_board_state_management/shared/domain/board_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/column_entity.dart';
+import 'package:trello_board_state_management/shared/core/entities/board_entity.dart';
 import 'package:trello_board_state_management/trello_riverpod/providers/board_providers.dart';
 
 class BoardNotifier extends AsyncNotifier<BoardEntity> {
   @override
   Future<BoardEntity> build() async {
-    final repository = ref.watch(SharedPreferencesBoardRepositoryProvider);
-    return repository.fetchBoard(id: 1);
+    final service = ref.watch(boardServiceProvider);
+    return service.fetchBoard();
   }
 
   Future<void> addColumn() async {
@@ -16,23 +16,62 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
 
     ref.read(isOverlayLoadingProvider.notifier).state = true;
 
-    /// `guard` removes the need for a try/catch block
+    /// TODO `guard` removes the need for a try/catch block
 
-    final repository = ref.read(SharedPreferencesBoardRepositoryProvider);
+    final service = ref.read(boardServiceProvider);
 
     final newB = BoardEntity(
       id: current.id,
-      boardColumns: [
-        ...current.boardColumns,
-        BoardColumnEntity(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          title: "New Column",
-          cards: [],
-        ),
-      ],
+      boardColumns: [...current.boardColumns, ColumnEntity.empty()],
     );
 
-    state = AsyncData(await repository.updateBoard(board: newB));
+    state = AsyncData(await service.updateBoard(board: newB));
+
+    ref.read(isOverlayLoadingProvider.notifier).state = false;
+  }
+
+  Future<void> addCard(String columnId) async {
+    final current = state.value;
+    if (current == null) return;
+
+    ref.read(isOverlayLoadingProvider.notifier).state = true;
+
+    final service = ref.read(boardServiceProvider);
+    final result = await service.addCardToColumn(columnId: columnId);
+
+    state = AsyncData(
+      BoardEntity(
+        id: current.id,
+        boardColumns: current.boardColumns
+            .map((column) => column.id == columnId ? result : column)
+            .toList(),
+      ),
+    );
+
+    ref.read(isOverlayLoadingProvider.notifier).state = false;
+  }
+
+  Future<void> updateColumnTitle(String columnId, String? title) async {
+    final current = state.value;
+    if (current == null) return;
+
+    ref.read(isOverlayLoadingProvider.notifier).state =
+        true; // TODO add debounce
+
+    final service = ref.read(boardServiceProvider);
+    final result = await service.updateColumnTitle(
+      columnId: columnId,
+      title: title ?? '',
+    );
+
+    state = AsyncData(
+      BoardEntity(
+        id: current.id,
+        boardColumns: current.boardColumns
+            .map((column) => column.id == columnId ? result : column)
+            .toList(),
+      ),
+    );
 
     ref.read(isOverlayLoadingProvider.notifier).state = false;
   }
