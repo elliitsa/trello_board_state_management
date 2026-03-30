@@ -30,27 +30,6 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     ref.read(isOverlayLoadingProvider.notifier).state = false;
   }
 
-  Future<void> addCard(String columnId) async {
-    final current = state.value;
-    if (current == null) return;
-
-    ref.read(isOverlayLoadingProvider.notifier).state = true;
-
-    final service = ref.read(boardServiceProvider);
-    final result = await service.addCardToColumn(columnId: columnId);
-
-    state = AsyncData(
-      BoardEntity(
-        id: current.id,
-        boardColumns: current.boardColumns
-            .map((column) => column.id == columnId ? result : column)
-            .toList(),
-      ),
-    );
-
-    ref.read(isOverlayLoadingProvider.notifier).state = false;
-  }
-
   Future<void> updateColumnTitle(String columnId, String? title) async {
     final current = state.value;
     if (current == null) return;
@@ -91,27 +70,4 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     ref.read(isOverlayLoadingProvider.notifier).state = false;
   }
 
-  Future<void> deleteCard({
-    required String columnId,
-    required String cardId,
-  }) async {
-    final current = state.value;
-    if (current == null) return;
-
-    ref.read(isOverlayLoadingProvider.notifier).state = true;
-
-    final service = ref.read(boardServiceProvider);
-    final result = await service.deleteCard(columnId: columnId, cardId: cardId);
-
-    state = AsyncData(
-      BoardEntity(
-        id: current.id,
-        boardColumns: current.boardColumns
-            .map((column) => column.id == columnId ? result : column)
-            .toList(),
-      ),
-    );
-
-    ref.read(isOverlayLoadingProvider.notifier).state = false;
-  }
 }

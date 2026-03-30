@@ -47,7 +47,7 @@ class BoardColumn extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextButton.icon(
                 onPressed: () {
-                  ref.read(boardProvider.notifier).addCard(_boardColumn!.id);
+                  ref.read(columnProvider(_boardColumn!.id).notifier).addCard();
                 },
                 label: Text("Add a card"),
                 icon: Icon(Icons.add),
