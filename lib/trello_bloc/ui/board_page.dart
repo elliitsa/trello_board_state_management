@@ -34,7 +34,8 @@ class BoardPage extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: BlocBuilder<BoardPageCubit, BoardPageState>(
-        builder: (context, state) {  /// TODO make this more concise
+        builder: (context, state) {
+          /// TODO make this more concise
           bool isOverlayLoading = false;
 
           if (state is BoardPageLoading) {

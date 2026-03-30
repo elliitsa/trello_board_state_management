@@ -6,13 +6,15 @@ import 'package:uuid/uuid.dart';
 
 @immutable
 class ColumnEntity extends Equatable {
-  ColumnEntity({
-    required this.id,
-    required this.title,
-    List<CardEntity>? cards,
-  }) : cards = List<CardEntity>.unmodifiable(cards ?? const []);
+  ColumnEntity({required this.id, required this.title, List<CardEntity>? cards})
+    : cards = List<CardEntity>.unmodifiable(cards ?? const []);
 
-  ColumnEntity.empty() : id = Uuid().v4(), title = null, cards = const []; // TODO use also in riverpod
+  ColumnEntity.empty()
+    : id = Uuid().v4(),
+      title = null,
+      cards = List<CardEntity>.unmodifiable(
+        const [],
+      ); // TODO use also in riverpod
 
   final String id;
   final String? title;

@@ -74,7 +74,5 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     );
 
     ref.read(isOverlayLoadingProvider.notifier).state = false;
-
   }
-
 }

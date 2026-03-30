@@ -15,9 +15,7 @@ class BoardService {
 
   Future<ColumnEntity> fetchColumn({required String columnId}) async {
     final board = await fetchBoard();
-    return board.boardColumns.firstWhere(
-      (column) => column.id == columnId,
-    );
+    return board.boardColumns.firstWhere((column) => column.id == columnId);
   }
 
   Future<BoardEntity> updateBoard({required BoardEntity board}) async {
@@ -64,7 +62,7 @@ class BoardService {
       board: board.copyWith(boardColumns: updatedColumns),
     );
     return updatedBoard.boardColumns.firstWhere(
-          (column) => column.id == columnId,
+      (column) => column.id == columnId,
     );
   }
 }
