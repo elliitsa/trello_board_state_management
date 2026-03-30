@@ -10,4 +10,8 @@ class CardEntity extends Equatable {
 
   @override
   List<Object?> get props => [guid, title];
+
+  CardEntity copyWith({String? title}) {
+    return CardEntity(guid: guid, title: title ?? this.title);
+  }
 }

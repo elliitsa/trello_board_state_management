@@ -8,7 +8,7 @@ class BoardColumnState extends Equatable {
   });
 
   final ColumnEntity columnEntity;
-  final bool? loading; // TODO Require param to make it cleaner
+  final bool? loading;
   final String? errorMessage;
 
   @override

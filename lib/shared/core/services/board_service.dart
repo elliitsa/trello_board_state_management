@@ -102,4 +102,29 @@ class BoardService {
       (column) => column.id == columnId,
     );
   }
+
+  Future<CardEntity> updateCardTitle({
+    required String cardId,
+    required String columnId,
+    required String value,
+  }) async {
+    final board = await fetchBoard();
+
+    final updatedColumns = board.boardColumns.map((col) {
+      if (col.id != columnId) return col;
+
+      final updatedCards = col.cards?.map((card) {
+        return card.guid == cardId ? card.copyWith(title: value) : card;
+      }).toList();
+
+      return col.copyWith(cards: updatedCards);
+    }).toList();
+
+    await updateBoard(board: board.copyWith(boardColumns: updatedColumns));
+
+    return updatedColumns
+        .firstWhere((col) => col.id == columnId)
+        .cards!
+        .firstWhere((card) => card.guid == cardId);
+  }
 }
