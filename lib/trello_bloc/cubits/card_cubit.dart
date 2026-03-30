@@ -20,7 +20,6 @@ class CardCubit extends Cubit<CardState> {
 
     final updatedCard = await _service.updateCardTitle(
       cardId: state.cardEntity.guid,
-      columnId: columnId,
       value: value ?? "Add card",
     );
 

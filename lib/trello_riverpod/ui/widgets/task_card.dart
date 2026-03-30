@@ -20,10 +20,37 @@ class TaskCard extends ConsumerWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                cardEntity.title,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+              Flexible(
+                child: Form(
+                  child: TextFormField(
+                    onChanged: (String? value) => ref
+                        .read(boardProvider.notifier)
+                        .updateCardTitle(
+                          cardId: cardEntity.guid,
+                          value: value,
+                        ),
+                    keyboardType: TextInputType.text,
+                    initialValue: cardEntity.title,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hint: Text(
+                        "New card",
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                      ),
+                    ),
+                    maxLines: 3,
+                    minLines: 1,
+                  ),
                 ),
               ),
               IconButton(icon: Icon(Icons.clear), onPressed: () {}),

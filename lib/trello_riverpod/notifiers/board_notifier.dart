@@ -76,6 +76,24 @@ class BoardNotifier extends AsyncNotifier<BoardEntity> {
     ref.read(isOverlayLoadingProvider.notifier).state = false;
   }
 
+  Future<void> updateCardTitle({
+    required String cardId,
+    String? value,
+  }) async {
+    final current = state.value;
+    if (current == null) return;
+
+    ref.read(isOverlayLoadingProvider.notifier).state =
+        true; // TODO add debounce
+
+    final service = ref.read(boardServiceProvider);
+    await service.updateCardTitle(cardId: cardId, value: value ?? "Add card");
+
+    state = AsyncData(await service.fetchBoard());
+
+    ref.read(isOverlayLoadingProvider.notifier).state = false;
+  }
+
   Future<void> deleteColumn(String columnId) async {
     final current = state.value;
     if (current == null) return;

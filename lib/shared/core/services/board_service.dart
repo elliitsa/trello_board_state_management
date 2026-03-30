@@ -105,10 +105,15 @@ class BoardService {
 
   Future<CardEntity> updateCardTitle({
     required String cardId,
-    required String columnId,
     required String value,
   }) async {
     final board = await fetchBoard();
+
+    /// This is the columnId of the column that consists of the card
+    /// (cards have generated guids) TODO do that for other places as well?
+    final columnId = board.boardColumns.firstWhere(
+      (col) => col.cards?.any((card) => card.guid == cardId) ?? false,
+    ).id;
 
     final updatedColumns = board.boardColumns.map((col) {
       if (col.id != columnId) return col;
