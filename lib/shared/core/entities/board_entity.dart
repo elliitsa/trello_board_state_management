@@ -13,10 +13,7 @@ class BoardEntity extends Equatable {
   @override
   List<Object?> get props => [id, boardColumns];
 
-  BoardEntity copyWith({int? id, List<ColumnEntity>? boardColumns}) {
-    return BoardEntity(
-      id: id ?? this.id,
-      boardColumns: boardColumns ?? this.boardColumns,
-    );
+  BoardEntity copyWith({List<ColumnEntity>? boardColumns}) {
+    return BoardEntity(id: id, boardColumns: boardColumns ?? this.boardColumns);
   }
 }

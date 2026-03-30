@@ -1,4 +1,3 @@
-
 import 'package:trello_board_state_management/shared/core/entities/card_entity.dart';
 
 class CardDto {

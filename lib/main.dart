@@ -13,8 +13,8 @@ import 'package:trello_board_state_management/trello_riverpod/riverpod_app.dart'
 
 void main() async {
   GetItIocContainer.register();
-  await core.bootstrap();
   await data.bootstrap();
+  await core.bootstrap();
 
   switch (AppConfig.stateManagement) {
     case StateManagement.bloc:
