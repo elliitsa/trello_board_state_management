@@ -32,16 +32,38 @@ class BoardPageCubit extends Cubit<BoardPageState> {
         emit(HasDataState(boardEntity: board, isLoading: false));
       }
     } on Exception catch (e) {
-      /// TODO please fix this...
-      print('Exception details:\n $e');
       emit(BoardPageError());
     } on Error catch (e) {
-      print('Error details:\n $e');
       emit(BoardPageError());
+    } catch (e, s) {
+      emit(BoardPageError());
+    }
+  }
+
+  Future<void> deleteColumn(String columnId) async {
+    if (state is BoardPageLoading) {
+      /// TODO repeats too much
+      emit(BoardPageLoading());
+    } else {
+      emit(
+        HasDataState(
+          boardEntity: (state as HasDataState).boardEntity,
+          isLoading: true,
+        ),
+      );
+    }
+
+    try {
+      final newBoard = await _service.deleteColumn(columnId: columnId);
+
+      emit(HasDataState(boardEntity: newBoard, isLoading: false));
+    } on Exception catch (e) {
+      print('Exception details:\n $e');
+    } on Error catch (e) {
+      print('Error details:\n $e');
     } catch (e, s) {
       print('Error details:\n $e');
       print('Stack details:\n $s');
-      emit(BoardPageError());
     }
   }
 

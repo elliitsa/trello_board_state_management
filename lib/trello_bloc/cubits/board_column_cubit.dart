@@ -9,27 +9,27 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
     required BoardService service,
     required ColumnEntity boardColumn,
   }) : _service = service,
-       super(BoardColumnState(boardColumnEntity: boardColumn));
+       super(BoardColumnState(columnEntity: boardColumn));
 
   final BoardService _service;
 
   Future<void> fetchColumn(String? columnId) async {
     final fetchedColumn = await _service.fetchColumn(
-      columnId: state.boardColumnEntity.id,
+      columnId: state.columnEntity.id,
     );
 
-    emit(state.copyWith(boardColumnEntity: fetchedColumn, loading: false));
+    emit(state.copyWith(columnEntity: fetchedColumn, loading: false));
   }
 
   Future<void> addCard() async {
     emit(state.copyWith(loading: true));
 
     final updatedBoardColumn = await _service.addCardToColumn(
-      columnId: state.boardColumnEntity.id,
+      columnId: state.columnEntity.id,
     );
 
     emit(
-      state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false),
+      state.copyWith(columnEntity: updatedBoardColumn, loading: false),
     ); // TODO updates the loading view
   }
 
@@ -39,10 +39,23 @@ class BoardColumnCubit extends Cubit<BoardColumnState> {
     emit(state.copyWith(loading: true));
 
     final updatedBoardColumn = await _service.updateColumnTitle(
-      columnId: state.boardColumnEntity.id,
+      columnId: state.columnEntity.id,
       title: value ?? "Add title",
     );
 
-    emit(state.copyWith(boardColumnEntity: updatedBoardColumn, loading: false));
+    emit(state.copyWith(columnEntity: updatedBoardColumn, loading: false));
+  }
+
+  Future<void> deleteCard({
+    required String cardId,
+  }) async {
+    emit(state.copyWith(loading: true));
+
+    final updatedBoardColumn = await _service.deleteCard(
+      columnId: state.columnEntity.id,
+      cardId: cardId,
+    );
+
+    emit(state.copyWith(columnEntity: updatedBoardColumn, loading: true));
   }
 }

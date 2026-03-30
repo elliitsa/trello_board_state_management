@@ -2,25 +2,25 @@ part of 'board_column_cubit.dart';
 
 class BoardColumnState extends Equatable {
   const BoardColumnState({
-    required this.boardColumnEntity,
+    required this.columnEntity,
     this.loading = false,
     this.errorMessage,
   });
 
-  final ColumnEntity boardColumnEntity;
-  final bool? loading; // TODO Require param to make it cleaner
+  final ColumnEntity columnEntity;
+  final bool? loading;
   final String? errorMessage;
 
   @override
-  List<Object?> get props => [boardColumnEntity, loading, errorMessage];
+  List<Object?> get props => [columnEntity, loading, errorMessage];
 
   BoardColumnState copyWith({
-    ColumnEntity? boardColumnEntity,
+    ColumnEntity? columnEntity,
     bool? loading,
     String? errorMessage,
   }) {
     return BoardColumnState(
-      boardColumnEntity: boardColumnEntity ?? this.boardColumnEntity,
+      columnEntity: columnEntity ?? this.columnEntity,
       loading: loading ?? this.loading,
       errorMessage: errorMessage ?? this.errorMessage,
     );

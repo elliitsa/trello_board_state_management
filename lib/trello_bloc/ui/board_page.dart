@@ -35,9 +35,6 @@ class BoardPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: BlocBuilder<BoardPageCubit, BoardPageState>(
         builder: (context, state) {
-          /// TODO make this more concise
-          bool isOverlayLoading = false;
-
           if (state is BoardPageLoading) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -47,19 +44,14 @@ class BoardPage extends StatelessWidget {
           if (state is BoardPageError) {
             return BoardViewError();
           }
-
-          BoardEntity board;
-
           if (state is HasDataState) {
-            board = state.boardEntity;
-            if (state.isLoading) {
-              isOverlayLoading = true;
-            }
+            return BoardView(
+              board: state.boardEntity,
+              isOverlayLoading: state.isLoading,
+            );
           } else {
             return const SizedBox.shrink();
           }
-
-          return BoardView(board: board, isOverlayLoading: isOverlayLoading);
         },
       ),
     );
